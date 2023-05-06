@@ -37,7 +37,7 @@ class Diskgen():
             stdout=f,
             close_fds=True
         )
-        pickler = pickle.Pickler(proc.stdin)
+        pickler = pickle.Pickler(proc.stdin, protocol=pickle.HIGHEST_PROTOCOL)
         for x in itbl.__iter__():
             pickler.dump(x)
         proc.stdin.flush()
