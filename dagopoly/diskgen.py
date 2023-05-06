@@ -4,9 +4,9 @@ import pickle
 from subprocess import Popen, PIPE
 
 class DiskgenIter():
-    def __init__(self, proc) -> None:
+    def __init__(self, f, proc) -> None:
         self._proc = proc
-        self._f = self._proc.stdout
+        self._f = f
         self._unpickler = pickle.Unpickler(self._f)
         self._isOpen = True
     
@@ -18,7 +18,8 @@ class DiskgenIter():
         else:
             self._isOpen = False
             self._f.close()
-            self._proc.wait()
+            if self._proc is not None:
+                self._proc.wait()
             raise StopIteration
 
 # mnemonic: itbl: "Iterable"
@@ -37,11 +38,12 @@ class Diskgen():
             stdout=f,
             close_fds=True
         )
-        pickler = pickle.Pickler(proc.stdin, protocol=pickle.HIGHEST_PROTOCOL)
+        g = proc.stdin
+        pickler = pickle.Pickler(g, protocol=pickle.HIGHEST_PROTOCOL)
         for x in itbl.__iter__():
             pickler.dump(x)
-        proc.stdin.flush()
-        proc.stdin.close()
+        g.flush()
+        g.close()
         proc.wait()
         f.close()
         if os.path.exists(rfile):     # write atomically
@@ -60,6 +62,6 @@ class Diskgen():
             stdout=PIPE,
             close_fds=True
             )
-        return DiskgenIter(proc)
+        return DiskgenIter(proc.stdout, proc)
 
 
