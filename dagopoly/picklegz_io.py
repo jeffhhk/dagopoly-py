@@ -1,5 +1,5 @@
 import os
-from dagopoly.diskgen import PickleGz
+from dagopoly.picklegz import PickleGz
 from dagopoly.singleton import Singleton
 
 class PickleGzIo():
