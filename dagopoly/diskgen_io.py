@@ -1,8 +1,8 @@
 import os
-from dagopoly.diskgen import Diskgen
+from dagopoly.diskgen import PickleGz
 from dagopoly.singleton import Singleton
 
-class DiskGenIo():
+class PickleGzIo():
     def __init__(self, debug=False) -> None:
         self._debug = debug
 
@@ -13,13 +13,13 @@ class DiskGenIo():
         return os.path.exists(os.path.join(self._adir(), rfile))
 
     def read(self, rfile):
-        return Diskgen.read(os.path.join(self._adir(), rfile))
+        return PickleGz.read(os.path.join(self._adir(), rfile))
 
     def write(self, itbl, rfile):
         adirParent = os.path.dirname(os.path.join(self._adir(), rfile))
         if not os.path.exists(adirParent):
             os.makedirs(adirParent)
-        Diskgen.write(itbl, os.path.join(self._adir(), rfile))
+        PickleGz.write(itbl, os.path.join(self._adir(), rfile))
 
     def isDebug(self):
         return self._debug

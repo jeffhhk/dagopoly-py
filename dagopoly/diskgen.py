@@ -3,7 +3,7 @@ import os
 import pickle
 from subprocess import Popen, PIPE
 
-class DiskgenIter():
+class PickleGzIter():
     def __init__(self, f, proc) -> None:
         self._proc = proc
         self._f = f
@@ -25,7 +25,7 @@ class DiskgenIter():
 # mnemonic: itbl: "Iterable"
 #   Is actually a lambda of zero arguments that returns iterable in the python sense
 
-class Diskgen():
+class PickleGz():
     @classmethod
     def write(cls, itbl, rfile):
         rfileTmp=rfile+".tmp"
@@ -52,7 +52,7 @@ class Diskgen():
 
     @classmethod
     def read(cls, rfile):
-        return Diskgen(rfile)
+        return PickleGz(rfile)
 
     def __init__(self, rfile) -> None:
         self._rfile = rfile
@@ -62,6 +62,6 @@ class Diskgen():
             stdout=PIPE,
             close_fds=True
             )
-        return DiskgenIter(proc.stdout, proc)
+        return PickleGzIter(proc.stdout, proc)
 
 
