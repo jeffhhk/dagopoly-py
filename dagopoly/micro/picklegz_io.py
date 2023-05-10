@@ -1,6 +1,6 @@
 import os
-from dagopoly.picklegz import PickleGz
-from dagopoly.singleton import Singleton
+from dagopoly.micro.picklegz import PickleGz
+from dagopoly.micro.singleton import Singleton
 
 class PickleGzIo():
     def __init__(self, debug=False) -> None:

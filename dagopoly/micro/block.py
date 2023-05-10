@@ -1,6 +1,6 @@
 import inspect
 import hashlib
-from dagopoly.picklegz_io import Dagopoly, DagopolyBase
+from dagopoly.micro.picklegz_io import Dagopoly, DagopolyBase
 import os
 from types import LambdaType
 
