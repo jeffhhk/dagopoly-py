@@ -15,7 +15,8 @@ except ImportError:
 
 
 class Block(tuple):
-    pass
+    def __iter__(self):
+        raise TypeError("Connot iterate Block.  Did you forget to .get()?")
 
 def recurse_sig(arg):
     if issubclass(arg.__class__, Block):
@@ -41,8 +42,13 @@ def hash_sig(sig):
     return hashlib.sha1(str(sig).encode('utf-8')).hexdigest()
 
 class CachedBlock(Block):
-    def __init__(self, block):
+    def __new__(cls, block):
+        self = super().__new__(cls)
         self._block = block
+        return self
+
+    def __init__(self, block):
+        pass
 
     def sig(self):
         return self._block.sig()
@@ -84,15 +90,21 @@ def block(v):
             __new__.__name__ = '__new__'
             __new__.__doc__ = f'Create new instance of {typename}({arg_list})'
 
+            def _args(self):
+                return [self.__getitem__(i) for i in range(0,self.__len__())]
+
             def _get(self):
                 if Dagopoly().io().isDebug():
                     print("computing: {}".format(self.sig()))
-                args=tuple(self)
+                args=self._args()
                 return func(*args)
             
             def _sig(self):
-                return compute_sig([v, typename], list(self))
-            
+                return compute_sig([v, typename], self._args())
+
+            def _iter(self):
+                raise TypeError("Connot iterate Block.  Did you forget to .get()?")
+
             def _cached(self):
                 return CachedBlock(self)
 
@@ -101,8 +113,10 @@ def block(v):
                 '__slots__': (),
                 '_fields': field_names,
                 '__new__': __new__,
+                '_args': _args,
                 'get':_get,
                 'sig':_sig,
+                '__iter__': _iter,
                 'cached':_cached,
             }
             for index, name in enumerate(field_names):
