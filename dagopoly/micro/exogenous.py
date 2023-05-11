@@ -1,7 +1,7 @@
 import subprocess
-from dagopoly.micro.block import *
+from .block import *
 
-from dagopoly.micro.picklegz_io import Dagopoly, DagopolyBase
+from .picklegz_io import Dagopoly, DagopolyBase
 
 class ExogenousTextBlock(Block):
     def __new__(cls, v, rfile):
