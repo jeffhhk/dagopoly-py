@@ -16,7 +16,7 @@ except ImportError:
 
 class Block(tuple):
     def __iter__(self):
-        raise TypeError("Connot iterate Block.  Did you forget to .get()?")
+        raise TypeError("Cannot iterate Block.  Did you forget to .get()?")
 
 def recurse_sig(arg):
     if issubclass(arg.__class__, Block):
