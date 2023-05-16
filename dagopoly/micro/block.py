@@ -23,6 +23,8 @@ def recurse_sig(arg):
         return arg.sig()
     if isinstance(arg, list):
         return recurse_sigs(arg)
+    if isinstance(arg, tuple):
+        return recurse_sigs(arg)
     if isinstance(arg, LambdaType): # Assume any functions are pure and exogenously versioned.
         return "<LambdaType>"               # Buyer beware!
     if not (isinstance(arg, int) or isinstance(arg, str)):
