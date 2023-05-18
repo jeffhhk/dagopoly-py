@@ -5,6 +5,7 @@ class DagopolyBase(object):
         self._adir = None
         self._io = None
         self._isDebug = None
+        self._dryRun = None
 
     def adir(self):
         if self._adir is None:
@@ -34,6 +35,16 @@ class DagopolyBase(object):
             self._isDebug = x
         else:
             raise Exception("isDebug() is already configured")
+
+    def isDryRun(self):
+        return self._dryRun if self._dryRun is not None else False
+
+    def setIsDryRun(self, dryRun):
+        if self._dryRun is None:
+            self._dryRun = dryRun
+        else:
+            raise Exception("dryRun() is already configured")
+
 
 class Dagopoly(DagopolyBase, metaclass=Singleton):
     pass

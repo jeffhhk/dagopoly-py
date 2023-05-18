@@ -62,11 +62,15 @@ class CachedBlock(Block):
         if not Dagopoly().io().exists(rfile):
             if Dagopoly().isDebug():
                 print("populating: {} at {}".format(s, rfile))
-            Dagopoly().io().write(self._block.get(), rfile)
+            if not Dagopoly().isDryRun():
+                Dagopoly().io().write(self._block.get(), rfile)
         else:
             if Dagopoly().isDebug():
                 print("remembering: {} at {}".format(s, rfile))
-        return Dagopoly().io().read(rfile)
+        if Dagopoly().isDryRun():
+            return ()
+        else:
+            return Dagopoly().io().read(rfile)
 
 class CachableBlock(Block):
     def cached(self):
