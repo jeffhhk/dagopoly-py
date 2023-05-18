@@ -4,6 +4,7 @@ class DagopolyBase(object):
     def __init__(self) -> None:
         self._adir = None
         self._io = None
+        self._isDebug = None
 
     def adir(self):
         if self._adir is None:
@@ -24,6 +25,15 @@ class DagopolyBase(object):
             self._io = io
         else:
             raise Exception("io() is already configured")
+
+    def isDebug(self):
+        return self._isDebug
+
+    def setIsDebug(self, x):
+        if self._isDebug is None:
+            self._isDebug = x
+        else:
+            raise Exception("isDebug() is already configured")
 
 class Dagopoly(DagopolyBase, metaclass=Singleton):
     pass

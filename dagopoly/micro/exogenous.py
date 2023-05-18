@@ -17,7 +17,7 @@ class ExogenousTextBlock(Block):
         return compute_sig([self.__class__.__name__, self._v], [self._rfile])
     
     def get(self):
-        if Dagopoly().io().isDebug():
+        if Dagopoly().isDebug():
             print("computing: {}".format(self.sig()))
         f = open(os.path.join(Dagopoly().adir(), "exogenous", self._rfile), "r")
         for line in f:
@@ -39,7 +39,7 @@ class ExogenousTgzTextBlock(Block):
         return compute_sig([self.__class__.__name__, self._v, self._rfile], [self._rfileInside])
     
     def get(self):
-        if Dagopoly().io().isDebug():
+        if Dagopoly().isDebug():
             print("computing: {}".format(self.sig()))
         afile = os.path.join(Dagopoly().adir(), "exogenous", self._rfile)
         proc = subprocess.Popen(['tar', 'xzf', afile ,'--to-stdout', self._rfileInside],stdout=subprocess.PIPE)

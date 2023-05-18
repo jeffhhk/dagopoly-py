@@ -21,6 +21,4 @@ class PickleGzIo():
             os.makedirs(adirParent)
         PickleGz.write(itbl, os.path.join(self._adir(), rfile))
 
-    def isDebug(self):
-        return self._debug
 

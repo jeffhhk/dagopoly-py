@@ -36,7 +36,7 @@ def recurse_sigs(args):
 
 def compute_sig(tags, args):
     s = tags + recurse_sigs(args)
-    # if Dagopoly().io().isDebug():
+    # if Dagopoly().isDebug():
     #     print("sig: {}".format(s))
     return s
 
@@ -60,11 +60,11 @@ class CachedBlock(Block):
         h = hash_sig(s)
         rfile = os.path.join("derived", h)
         if not Dagopoly().io().exists(rfile):
-            if Dagopoly().io().isDebug():
+            if Dagopoly().isDebug():
                 print("populating: {} at {}".format(s, rfile))
             Dagopoly().io().write(self._block.get(), rfile)
         else:
-            if Dagopoly().io().isDebug():
+            if Dagopoly().isDebug():
                 print("remembering: {} at {}".format(s, rfile))
         return Dagopoly().io().read(rfile)
 
@@ -96,7 +96,7 @@ def block(v):
                 return [self.__getitem__(i) for i in range(0,self.__len__())]
 
             def _get(self):
-                if Dagopoly().io().isDebug():
+                if Dagopoly().isDebug():
                     print("computing: {}".format(self.sig()))
                 args=self._args()
                 return func(*args)
