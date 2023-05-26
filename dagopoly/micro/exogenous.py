@@ -45,4 +45,7 @@ class ExogenousTgzTextBlock(Block):
         proc = subprocess.Popen(['tar', 'xzf', afile ,'--to-stdout', self._rfileInside],stdout=subprocess.PIPE)
         for line0 in proc.stdout:
             yield line0.decode('utf-8').rstrip()
+        proc.wait()
+        if proc.returncode!=0:
+            raise Exception("ExogenousTgzTextBlock error status={}".format(proc.returncode))
 
