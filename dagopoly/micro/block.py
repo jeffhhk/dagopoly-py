@@ -117,3 +117,38 @@ def block(v):
 
         return _class(func.__name__, inspect.getfullargspec(func).args)
     return decorator
+
+# same as block, but with diagnostic code removed
+def block_min(v):
+    def decorator(func):
+        def _class(typename):
+            typename = _sys.intern(str(typename))
+
+            def _new(cls, *args):
+                self = Block.__new__(cls)
+                self._l = args
+                return self
+
+            def _get(self):
+                if Dagopoly().isDebug():
+                    print("computing: {}".format(self.sig()))
+                args=self._l
+                return func(*args)
+
+            def _sig(self):
+                return compute_sig([v, typename], self._l)
+
+            def _cached(self):
+                return CachedBlock(self)
+
+            class_namespace = {
+               '__new__': _new,
+                'get':_get,
+                'sig':_sig,
+                'cached':_cached,
+            }
+
+            return type(typename, (Block,), class_namespace)
+
+        return _class(func.__name__)
+    return decorator
