@@ -127,8 +127,6 @@ def block_min(v):
                 return self
 
             def _get(self):
-                if Dagopoly().isDebug():
-                    print("computing: {}".format(self.sig()))
                 args=self._l
                 return func(*args)
 
