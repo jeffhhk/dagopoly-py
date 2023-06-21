@@ -25,6 +25,11 @@ def count_results(xs):
     return sum((1 for _ in xs.get()))
 
 nExpected=10
+print("count_to_n={}".format(count_to_n))
+print("count_to_n.get()={}".format(count_to_n.get()))
+count_to_n(nExpected)
+count_to_n(nExpected).cached()
+square(count_to_n(nExpected).cached())
 n=count_results(square(count_to_n(nExpected).cached()))
 if n!=nExpected:
     raise Exception("Expected {} results but got {}".format(nExpected, n))
