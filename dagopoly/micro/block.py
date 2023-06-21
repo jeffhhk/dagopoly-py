@@ -86,9 +86,6 @@ def block(v):
                 self._l = args
                 return self
 
-            def _args(self):
-                return self._l
-
             def _get(self):
                 if Dagopoly().isDebug():
                     print("computing: {}".format(self.sig()))
@@ -96,7 +93,7 @@ def block(v):
                 return func(*args)
             
             def _sig(self):
-                return compute_sig([v, typename], self._args())
+                return compute_sig([v, typename], self._l)
 
             def _iter(self):
                 raise TypeError("Cannot iterate Block.  Did you forget to .get()?")
@@ -109,7 +106,6 @@ def block(v):
                 '__slots__': (),
                 '_fields': field_names,
                 '__new__': _new,
-                '_args': _args,
                 'get':_get,
                 'sig':_sig,
                 '__iter__': _iter,
