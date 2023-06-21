@@ -95,9 +95,6 @@ def block(v):
             def _sig(self):
                 return compute_sig([v, typename], self._l)
 
-            def _iter(self):
-                raise TypeError("Cannot iterate Block.  Did you forget to .get()?")
-
             def _cached(self):
                 return CachedBlock(self)
 
@@ -108,7 +105,6 @@ def block(v):
                 '__new__': _new,
                 'get':_get,
                 'sig':_sig,
-                '__iter__': _iter,
                 'cached':_cached,
             }
             for index, name in enumerate(field_names):
