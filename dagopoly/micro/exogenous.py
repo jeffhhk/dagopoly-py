@@ -10,9 +10,6 @@ class ExogenousTextBlock(Block):
         self._rfile = rfile
         return self
 
-    def __init__(self, v, rfile):
-        super().__init__()
-
     def sig(self):
         return compute_sig([self.__class__.__name__, self._v], [self._rfile])
     
@@ -31,9 +28,6 @@ class ExogenousTgzTextBlock(Block):
         self._rfile = rfileTgz
         self._rfileInside = rfileInside
         return self
-
-    def __init__(self, v, rfileTgz, rfileInside):
-        super().__init__()
 
     def sig(self):
         return compute_sig([self.__class__.__name__, self._v, self._rfile], [self._rfileInside])

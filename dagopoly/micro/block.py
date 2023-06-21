@@ -49,9 +49,6 @@ class CachedBlock(Block):
         self._block = block
         return self
 
-    def __init__(self, block):
-        pass
-
     def sig(self):
         return self._block.sig()
 
