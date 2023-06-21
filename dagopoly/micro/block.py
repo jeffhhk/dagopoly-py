@@ -109,7 +109,7 @@ def block(v):
                 return compute_sig([v, typename], self._args())
 
             def _iter(self):
-                raise TypeError("Connot iterate Block.  Did you forget to .get()?")
+                raise TypeError("Cannot iterate Block.  Did you forget to .get()?")
 
             def _cached(self):
                 return CachedBlock(self)
