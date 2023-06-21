@@ -81,28 +81,18 @@ def block(v):
         def _class(typename, field_names):
             typename = _sys.intern(str(typename))
 
-            arg_list = ', '.join(field_names)
-            if len(field_names) == 1:
-                arg_list += ','
-            tuple_new = tuple.__new__
-
-            namespace = {
-                '_tuple_new': tuple_new,
-                '__builtins__': {},
-                '__name__': f'namedtuple_{typename}',
-            }
-            code = f'lambda _cls, {arg_list}: _tuple_new(_cls, ({arg_list}))'
-            __new__ = eval(code, namespace)
-            __new__.__name__ = '__new__'
-            __new__.__doc__ = f'Create new instance of {typename}({arg_list})'
+            def _new(cls, *args):
+                self = Block.__new__(cls)
+                self._l = args
+                return self
 
             def _args(self):
-                return [self.__getitem__(i) for i in range(0,self.__len__())]
+                return self._l
 
             def _get(self):
                 if Dagopoly().isDebug():
                     print("computing: {}".format(self.sig()))
-                args=self._args()
+                args=self._l
                 return func(*args)
             
             def _sig(self):
@@ -118,7 +108,7 @@ def block(v):
                 '__doc__': f'{typename}',
                 '__slots__': (),
                 '_fields': field_names,
-                '__new__': __new__,
+                '__new__': _new,
                 '_args': _args,
                 'get':_get,
                 'sig':_sig,
