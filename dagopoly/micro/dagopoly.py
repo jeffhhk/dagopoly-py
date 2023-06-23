@@ -3,7 +3,7 @@ from .singleton import Singleton
 class DagopolyBase(object):
     def __init__(self) -> None:
         self._adir = None
-        self._io = None
+        self._oio = None
         self._isDebug = None
         self._dryRun = None
 
@@ -18,14 +18,15 @@ class DagopolyBase(object):
         else:
             raise Exception("adir() is already configured")
 
-    def io(self):
-        return self._io
+    # mnemonic: ObjectIO
+    def oio(self):
+        return self._oio
 
-    def setIo(self, io):
-        if self._io is None:
-            self._io = io
+    def setOio(self, oio):
+        if self._oio is None:
+            self._oio = oio
         else:
-            raise Exception("io() is already configured")
+            raise Exception("oio() is already configured")
 
     def isDebug(self):
         return self._isDebug

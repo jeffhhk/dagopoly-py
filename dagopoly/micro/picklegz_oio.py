@@ -2,7 +2,7 @@ import os
 from .picklegz import PickleGz
 from .dagopoly import Dagopoly
 
-class PickleGzIo():
+class PickleGzOio():
     def __init__(self, debug=False) -> None:
         self._debug = debug
 

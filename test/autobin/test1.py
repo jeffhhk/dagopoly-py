@@ -5,13 +5,13 @@ import sys
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_adir)
 
-from dagopoly.micro.picklegz_io import *
+from dagopoly.micro.picklegz_oio import *
 from dagopoly.micro.block import *
 from dagopoly.micro.exogenous import *
 
 _adirStorage=os.path.join(_adir, "storage/autobin")
 Dagopoly().setAdir(_adirStorage)
-Dagopoly().setIo(PickleGzIo(debug=True))
+Dagopoly().setOio(PickleGzOio(debug=True))
 
 @block("v0.0")
 def count_to_n(n):

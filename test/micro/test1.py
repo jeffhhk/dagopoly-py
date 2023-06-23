@@ -10,13 +10,13 @@ from collections import namedtuple
 import heapq
 import itertools
 
-from dagopoly.micro.picklegz_io import *
+from dagopoly.micro.picklegz_oio import *
 from dagopoly.micro.block import *
 from dagopoly.micro.exogenous import *
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 Dagopoly().setAdir(os.path.join(_adir, "storage_test"))
-Dagopoly().setIo(PickleGzIo(debug=True))
+Dagopoly().setOio(PickleGzOio(debug=True))
 
 @block("v0.0.0")
 def counting():
