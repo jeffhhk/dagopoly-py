@@ -1,6 +1,7 @@
 import inspect
 import hashlib
 from .dagopoly import Dagopoly, DagopolyBase
+from .emit import emit
 import os
 from types import LambdaType
 
@@ -28,7 +29,7 @@ def recurse_sig(arg):
     if isinstance(arg, LambdaType): # Assume any functions are pure and exogenously versioned.
         return "<LambdaType>"               # Buyer beware!
     if not (isinstance(arg, int) or isinstance(arg, str)):
-        print("WARNING: unexpected class {} in signature argument: {}".format(arg.__class__.__name__, arg))
+        emit(["warn", "msg", "", "unexpected class {} in signature argument: {}".format(arg.__class__.__name__, arg)])
     return arg
 
 def recurse_sigs(args):
@@ -36,8 +37,7 @@ def recurse_sigs(args):
 
 def compute_sig(tags, args):
     s = tags + recurse_sigs(args)
-    # if Dagopoly().isDebug():
-    #     print("sig: {}".format(s))
+    #emit(["trace", "compute_sig", "", s])
     return s
 
 def hash_sig(sig):
@@ -57,13 +57,11 @@ class CachedBlock(Block):
         h = hash_sig(s)
         rfile = os.path.join("derived", h)
         if not Dagopoly().oio().exists(rfile):
-            if Dagopoly().isDebug():
-                print("populating: {} at {}".format(s, rfile))
+            emit(["info", "populating", s, rfile])
             if not Dagopoly().isDryRun():
                 Dagopoly().oio().write(self._block.get(), rfile)
         else:
-            if Dagopoly().isDebug():
-                print("remembering: {} at {}".format(s, rfile))
+            emit(["info", "remembering", s, rfile])
         if Dagopoly().isDryRun():
             return ()
         else:
@@ -84,8 +82,7 @@ def block(v):
                 return self
 
             def _get(self):
-                if Dagopoly().isDebug():
-                    print("computing: {}".format(self.sig()))
+                emit(["info", "computing", self.sig()])
                 args=self._l
                 return func(*args)
             
