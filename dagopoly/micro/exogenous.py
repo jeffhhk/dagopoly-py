@@ -16,7 +16,7 @@ class ExogenousTextBlock(Block):
     
     def get(self):
         emit(["info", "computing", self.__class__.__name__, self.sig()])
-        f = open(os.path.join(Dagopoly().adir(), "exogenous", self._rfile), "r")
+        f = open(os.path.join(Dagopoly().conf.adir, "exogenous", self._rfile), "r")
         for line in f:
             yield line.rstrip("\n")
         f.close()
@@ -34,7 +34,7 @@ class ExogenousTgzTextBlock(Block):
     
     def get(self):
         emit(["info", "computing", self.__class__.__name__, self.sig()])
-        afile = os.path.join(Dagopoly().adir(), "exogenous", self._rfile)
+        afile = os.path.join(Dagopoly().conf.adir, "exogenous", self._rfile)
         proc = subprocess.Popen(['tar', 'xzf', afile ,'--to-stdout', self._rfileInside],stdout=subprocess.PIPE)
         for line0 in proc.stdout:
             yield line0.decode('utf-8').rstrip()

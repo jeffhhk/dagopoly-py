@@ -8,10 +8,12 @@ sys.path.append(_adir)
 from dagopoly.micro.picklegz_oio import *
 from dagopoly.micro.block import *
 from dagopoly.micro.exogenous import *
+from dagopoly.micro.config import Config
 
 _adirStorage=os.path.join(_adir, "storage/autobin")
-Dagopoly().setAdir(_adirStorage)
-Dagopoly().setOio(PickleGzOio(debug=True))
+Dagopoly().setConf(Config(
+        adir=_adirStorage,
+        oio=PickleGzOio()))
 
 @block("v0.0")
 def count_to_n(n):

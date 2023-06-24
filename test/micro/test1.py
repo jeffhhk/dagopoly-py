@@ -13,10 +13,12 @@ import itertools
 from dagopoly.micro.picklegz_oio import *
 from dagopoly.micro.block import *
 from dagopoly.micro.exogenous import *
+from dagopoly.micro.config import Config
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-Dagopoly().setAdir(os.path.join(_adir, "storage_test"))
-Dagopoly().setOio(PickleGzOio(debug=True))
+Dagopoly().setConf(Config(
+        adir=os.path.join(_adir, "storage_test"),
+        oio=PickleGzOio()))
 
 @block("v0.0.0")
 def counting():

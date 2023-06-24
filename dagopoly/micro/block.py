@@ -56,16 +56,16 @@ class CachedBlock(Block):
         s = self._block.sig()
         h = hash_sig(s)
         rfile = os.path.join("derived", h)
-        if not Dagopoly().oio().exists(rfile):
+        if not Dagopoly().conf.oio.exists(rfile):
             emit(["info", "populating", s, rfile])
-            if not Dagopoly().isDryRun():
-                Dagopoly().oio().write(self._block.get(), rfile)
+            if not Dagopoly().conf.isDryRun:
+                Dagopoly().conf.oio.write(self._block.get(), rfile)
         else:
             emit(["info", "remembering", s, rfile])
-        if Dagopoly().isDryRun():
+        if Dagopoly().conf.isDryRun:
             return ()
         else:
-            return Dagopoly().oio().read(rfile)
+            return Dagopoly().conf.oio.read(rfile)
 
 class CachableBlock(Block):
     def cached(self):

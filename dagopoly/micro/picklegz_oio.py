@@ -3,11 +3,11 @@ from .picklegz import PickleGz
 from .dagopoly import Dagopoly
 
 class PickleGzOio():
-    def __init__(self, debug=False) -> None:
-        self._debug = debug
+    def __init__(self) -> None:
+        pass
 
     def _adir(self):
-        return Dagopoly().adir()
+        return Dagopoly().conf.adir
 
     def exists(self, rfile):
         return os.path.exists(os.path.join(self._adir(), rfile))
