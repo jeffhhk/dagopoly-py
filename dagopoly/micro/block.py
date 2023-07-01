@@ -85,23 +85,19 @@ def block(v):
             def _sig(self):
                 return compute_sig([v, typename], self._l)
 
-            def _cached(self):
-                return CachedBlock(self)
-
             class_namespace = {
                 '__doc__': f'{typename}',
                 '__slots__': (),
                 '_fields': field_names,
                 '__init__': _init,
                 'get':_get,
-                'sig':_sig,
-                'cached':_cached,
+                'sig':_sig
             }
             for index, name in enumerate(field_names):
                 doc = _sys.intern(f'Alias for field number {index}')
                 class_namespace[name] = _tuplegetter(index, doc)
 
-            result = type(typename, (Block,), class_namespace)
+            result = type(typename, (CachableBlock,), class_namespace)
 
             return result
 
@@ -121,16 +117,12 @@ def block_min(v):
             def _sig(self):
                 return compute_sig([v, typename], self._l)
 
-            def _cached(self):
-                return CachedBlock(self)
-
             class_namespace = {
                 'get':_get,
-                'sig':_sig,
-                'cached':_cached,
+                'sig':_sig
             }
 
-            return type(typename, (Block,), class_namespace)
+            return type(typename, (CachableBlock,), class_namespace)
 
         return _class(func.__name__)
     return decorator
