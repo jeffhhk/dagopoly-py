@@ -5,11 +5,9 @@ from .dagopoly import Dagopoly, DagopolyBase
 from .emit import emit
 
 class ExogenousTextBlock(Block):
-    def __new__(cls, v, rfile):
-        self = super().__new__(cls)
+    def __init__(self, v, rfile):
         self._v = v
         self._rfile = rfile
-        return self
 
     def sig(self):
         return compute_sig([self.__class__.__name__, self._v], [self._rfile])
@@ -22,12 +20,10 @@ class ExogenousTextBlock(Block):
         f.close()
 
 class ExogenousTgzTextBlock(Block):
-    def __new__(cls, v, rfileTgz, rfileInside):
-        self = super().__new__(cls)
+    def __init__(self, v, rfileTgz, rfileInside):
         self._v = v
         self._rfile = rfileTgz
         self._rfileInside = rfileInside
-        return self
 
     def sig(self):
         return compute_sig([self.__class__.__name__, self._v, self._rfile], [self._rfileInside])

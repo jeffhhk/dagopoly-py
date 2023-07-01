@@ -15,7 +15,7 @@ except ImportError:
     _tuplegetter = lambda index, doc: property(_itemgetter(index), doc=doc)
 
 
-class Block(tuple):
+class Block(object):
     def __iter__(self):
         raise TypeError("Cannot iterate Block.  Did you forget to .get()?")
 
@@ -44,10 +44,8 @@ def hash_sig(sig):
     return hashlib.sha1(str(sig).encode('utf-8')).hexdigest()
 
 class CachedBlock(Block):
-    def __new__(cls, block):
-        self = super().__new__(cls)
+    def __init__(self, block):
         self._block = block
-        return self
 
     def sig(self):
         return self._block.sig()
@@ -76,10 +74,8 @@ def block(v):
         def _class(typename, field_names):
             typename = _sys.intern(str(typename))
 
-            def _new(cls, *args):
-                self = Block.__new__(cls)
+            def _init(self, *args):
                 self._l = args
-                return self
 
             def _get(self):
                 emit(["info", "computing", self.sig()])
@@ -96,7 +92,7 @@ def block(v):
                 '__doc__': f'{typename}',
                 '__slots__': (),
                 '_fields': field_names,
-                '__new__': _new,
+                '__init__': _init,
                 'get':_get,
                 'sig':_sig,
                 'cached':_cached,
@@ -118,11 +114,6 @@ def block_min(v):
         def _class(typename):
             typename = _sys.intern(str(typename))
 
-            def _new(cls, *args):
-                self = Block.__new__(cls)
-                self._l = args
-                return self
-
             def _get(self):
                 args=self._l
                 return func(*args)
@@ -134,7 +125,6 @@ def block_min(v):
                 return CachedBlock(self)
 
             class_namespace = {
-               '__new__': _new,
                 'get':_get,
                 'sig':_sig,
                 'cached':_cached,
