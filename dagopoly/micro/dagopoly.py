@@ -2,10 +2,6 @@ from .singleton import Singleton
 
 class DagopolyBase(object):
     def __init__(self) -> None:
-        self._adir = None
-        self._oio = None
-        self._isDebug = None
-        self._dryRun = None
         self._conf = None
 
     @property
