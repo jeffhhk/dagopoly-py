@@ -27,7 +27,7 @@ def recurse_sig(arg):
     if isinstance(arg, tuple):
         return recurse_sigs(arg)
     if isinstance(arg, LambdaType): # Assume any functions are pure and exogenously versioned.
-        return "<LambdaType>"               # Buyer beware!
+        return "<Lambda>"               # Buyer beware!
     if not (isinstance(arg, int) or isinstance(arg, str)):
         emit(["warn", "msg", "", "unexpected class {} in signature argument: {}".format(arg.__class__.__name__, arg)])
     return arg
