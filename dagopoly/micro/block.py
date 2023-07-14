@@ -1,6 +1,7 @@
 import inspect
 import hashlib
 from .dagopoly import Dagopoly, DagopolyBase
+from .manifest import Ndjson, manifest
 from .emit import emit
 import os
 from types import LambdaType
@@ -57,6 +58,8 @@ class CachedBlock(Block):
         if not Dagopoly().conf.oio.exists(rfile):
             emit(["info", "populating", s, rfile])
             if not Dagopoly().conf.isDryRun:
+                Dagopoly().conf.oio.write(manifest(s, h),
+                    "{}.manifest".format(rfile), writer=Ndjson.write)
                 Dagopoly().conf.oio.write(self._block.get(), rfile)
         else:
             emit(["info", "remembering", s, rfile])

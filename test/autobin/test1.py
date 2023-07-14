@@ -1,6 +1,7 @@
 
 import os
 import sys
+import subprocess
 
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_adir)
@@ -14,6 +15,11 @@ _adirStorage=os.path.join(_adir, "storage/autobin")
 Dagopoly().setConf(Config(
         adir=_adirStorage,
         oio=PickleGzOio()))
+
+os.environ["revision_control_version"]= \
+    subprocess.run(["bash", os.path.join(_adir, "contrib/gitid.sh")],
+                   capture_output=True,
+                   encoding="utf-8").stdout.rstrip()
 
 @block("v0.0")
 def count_to_n(n):
