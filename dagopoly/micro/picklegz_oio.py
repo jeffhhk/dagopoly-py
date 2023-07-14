@@ -12,14 +12,14 @@ class PickleGzOio():
     def exists(self, rfile):
         return os.path.exists(os.path.join(self._adir(), rfile))
 
-    def read(self, rfile):
-        return PickleGz.read(os.path.join(self._adir(), rfile))
+    def read(self, rfile, reader=PickleGz.read):
+        return reader(os.path.join(self._adir(), rfile))
 
-    def write(self, itbl, rfile):
+    def write(self, itbl, rfile, writer=PickleGz.write):
         adir = os.path.join(self._adir(), rfile)
         adirParent = os.path.dirname(adir)
         if not os.path.exists(adirParent):
             os.makedirs(adirParent)
-        PickleGz.write(itbl, adir)
+        writer(itbl, adir)
 
 
