@@ -1,8 +1,9 @@
+from .local_oio import LocalOio
 
 class Config():
     def __init__(self,
                  adir=None,
-                 oio=None,
+                 oio=LocalOio(),
                  isDebug=False,
                  isDryRun=False
                  ):

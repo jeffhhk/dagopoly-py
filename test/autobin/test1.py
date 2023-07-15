@@ -6,15 +6,14 @@ import subprocess
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_adir)
 
-from dagopoly.micro.picklegz_oio import *
+from dagopoly.micro.local_oio import *
 from dagopoly.micro.block import *
 from dagopoly.micro.exogenous import *
 from dagopoly.micro.config import Config
 
 _adirStorage=os.path.join(_adir, "storage/autobin")
 Dagopoly().setConf(Config(
-        adir=_adirStorage,
-        oio=PickleGzOio()))
+        adir=_adirStorage))
 
 os.environ["revision_control_version"]= \
     subprocess.run(["bash", os.path.join(_adir, "contrib/gitid.sh")],

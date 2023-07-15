@@ -2,7 +2,7 @@ import os
 from .picklegz import PickleGz
 from .dagopoly import Dagopoly
 
-class PickleGzOio():
+class LocalOio():
     def __init__(self) -> None:
         pass
 
