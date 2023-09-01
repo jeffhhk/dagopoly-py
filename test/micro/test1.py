@@ -10,9 +10,7 @@ from collections import namedtuple
 import heapq
 import itertools
 
-from dagopoly.micro.block import *
-from dagopoly.micro.exogenous import *
-from dagopoly.micro.config import Config
+from dagopoly.micro.basics import *
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 Dagopoly().setConf(Config(

@@ -6,10 +6,7 @@ import subprocess
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_adir)
 
-from dagopoly.micro.local_oio import *
-from dagopoly.micro.block import *
-from dagopoly.micro.exogenous import *
-from dagopoly.micro.config import Config
+from dagopoly.micro.basics import *
 
 _adirStorage=os.path.join(_adir, "storage/autobin")
 Dagopoly().setConf(Config(
