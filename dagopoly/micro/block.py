@@ -23,9 +23,7 @@ class Block(object):
 def recurse_sig(arg):
     if issubclass(arg.__class__, Block):
         return arg.sig()
-    if isinstance(arg, list):
-        return recurse_sigs(arg)
-    if isinstance(arg, tuple):
+    if isinstance(arg, list) or isinstance(arg, tuple):
         return recurse_sigs(arg)
     if isinstance(arg, LambdaType): # Assume any functions are pure and exogenously versioned.
         return "<Lambda>"               # Buyer beware!
