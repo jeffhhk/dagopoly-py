@@ -5,6 +5,10 @@ class DagopolyBase(object):
         self._conf = None
 
     @property
+    def oio(self):
+        return self.conf.oio
+
+    @property
     def conf(self):
         if self._conf is None:
             raise Exception("setting a configuration is required")
