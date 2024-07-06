@@ -77,6 +77,33 @@ class CachableBlock(Block):
     def cached(self):
         return CachedBlock(self)
 
+# Get a function's list of external references
+def get_bindings_of_conames(func):
+    bindings = {}
+    # It seems func.__closure__ only applies to other cases
+    # "co_name-" seems to hold the list of symbols
+    for name in func.__code__.co_names:
+        if name in globals():
+            obj = globals()[name]
+            bindings[name] = obj
+        elif name in func.__globals__:
+            obj = func.__globals__[name]
+            bindings[name] = obj
+        elif name in __builtins__:
+            obj = __builtins__[name]
+            bindings[name] = obj
+        else:
+            bindings[name] = 'Undefined'
+    return bindings
+
+def has_base(t, cls):
+    if not isinstance(t,type):
+        return False
+    for base in t.__bases__:
+        if base == cls:
+            return True
+    return False
+
 def block(v):
     def decorator(func):
         def _class(typename, field_names):
@@ -106,9 +133,10 @@ def block(v):
                 class_namespace[name] = _tuplegetter(index, doc)
 
             result = type(typename, (CachableBlock,), class_namespace)
-
             return result
-
+        for (coname,obj) in get_bindings_of_conames(func).items():
+            if has_base(obj, CachableBlock):
+                emit(["error", "invalid external reference to", coname, "from", func.__name__])
         return _class(func.__name__, inspect.getfullargspec(func).args)
     return decorator
 
