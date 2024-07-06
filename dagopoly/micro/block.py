@@ -102,6 +102,9 @@ def has_base(t, cls):
     for base in t.__bases__:
         if base == cls:
             return True
+        for sub in base.__subclasses__():
+            if sub == cls:
+                return True
     return False
 
 def block(v):
