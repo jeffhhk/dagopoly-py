@@ -18,6 +18,10 @@ os.environ["revision_control_version"]= \
                    capture_output=True,
                    encoding="utf-8").stdout.rstrip()
 
+# def emit_listener(msg):
+#     print("dagopoly", msg)
+# add_emit_listener(emit_listener)
+
 @block("v0.0")
 def count_to_n(n):
     return list(range(0,n))
@@ -38,6 +42,10 @@ count_results(count_to_n(nExpected).cached())
 square(count_to_n(nExpected).cached())
 print("about to count squares to n")
 n=count_results(square(count_to_n(nExpected).cached()).cached())
+print("about to count square squares to n")
+n=count_results(square(square(count_to_n(nExpected).cached()).cached()).cached())
+print("about to count square square squares to n")
+n=count_results(square(square(square(count_to_n(nExpected).cached()).cached()).cached()).cached())
 if n!=nExpected:
     raise Exception("Expected {} results but got {}".format(nExpected, n))
 
