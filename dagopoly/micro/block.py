@@ -3,6 +3,7 @@ import hashlib
 from .dagopoly import Dagopoly, DagopolyBase
 from .manifest import Ndjson, manifest
 from .emit import emit
+from .sigc import Sigc
 import os
 from types import LambdaType
 
@@ -53,18 +54,24 @@ class CachedBlock(Block):
         s = self._block.sig()
         h = hash_sig(s)
         rfile = os.path.join("derived", h)
-        if not Dagopoly().oio.exists(rfile):
+        rfileM = "{}.manifest".format(rfile)
+        oio = Dagopoly().oio
+        if not oio.exists(rfile) or not oio.exists(rfileM):
             emit(["info", "populating", s, rfile])
+            sigc = Sigc()
+            with sigc:
+                if not Dagopoly().conf.isDryRun:
+                    oio.write(self._block.get(), rfile)
             if not Dagopoly().conf.isDryRun:
-                Dagopoly().oio.write(manifest(s, h),
-                    "{}.manifest".format(rfile), writer=Ndjson.write)
-                Dagopoly().oio.write(self._block.get(), rfile)
+                oio.write(manifest(s, h, sigc.get()),
+                    rfileM, writer=Ndjson.write)
         else:
             emit(["info", "remembering", s, rfile])
+            Sigc.send((s,h))
         if Dagopoly().conf.isDryRun:
             return ()
         else:
-            return Dagopoly().oio.read(rfile)
+            return oio.read(rfile)
 
 class CachableBlock(Block):
     def cached(self):

@@ -3,14 +3,15 @@ import json
 from datetime import datetime, timezone
 import time
 
-def manifest(sig,sighash):
+def manifest(sig, sighash, remembered):
     t = datetime.fromtimestamp(time.time(), tz=timezone.utc).isoformat()
     rcv = os.getenv("revision_control_version")
     return [{
         "revision_control_version":rcv,
         "t":t,
         "sighash": sighash,
-        "sig": sig
+        "sig": sig,
+        "remembered": [{"sig":s, "sighash":h} for (s,h) in remembered]
     }]
 
 class Ndjson():

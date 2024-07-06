@@ -7,6 +7,7 @@ _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 sys.path.append(_adir)
 
 from dagopoly.micro.basics import *
+from dagopoly.micro.emit import *
 
 _adirStorage=os.path.join(_adir, "storage/autobin")
 Dagopoly().setConf(Config(
@@ -32,9 +33,11 @@ nExpected=10
 print("count_to_n={}".format(count_to_n))
 print("count_to_n.get()={}".format(count_to_n(nExpected).get()))
 count_to_n(nExpected)
-count_to_n(nExpected).cached()
+print("about to count to n")
+count_results(count_to_n(nExpected).cached())
 square(count_to_n(nExpected).cached())
-n=count_results(square(count_to_n(nExpected).cached()))
+print("about to count squares to n")
+n=count_results(square(count_to_n(nExpected).cached()).cached())
 if n!=nExpected:
     raise Exception("Expected {} results but got {}".format(nExpected, n))
 
