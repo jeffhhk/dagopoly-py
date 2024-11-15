@@ -11,6 +11,7 @@ import heapq
 import itertools
 
 from dagopoly.micro.basics import *
+from dagopoly.micro.picklegz import *
 _adir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 Dagopoly().setConf(Config(
@@ -40,6 +41,15 @@ class TestBlockMethods(unittest.TestCase):
         with self.assertRaises(TypeError):
             sum(1 for _ in counting())
 
+
+    # demonstrates: PickleGzIter is not iterable (fixed)
+    def test_picklgz_iter(self):
+        relf = "test_temp_foo_{}.gz".format(random.randint(0,9000000)+1000000)
+        PickleGz.write((str(n) for n in range(10)),relf)
+        st = ",".join(PickleGz.read(relf))
+        #print("hello {}".format(st))
+        if(os.path.exists(relf)):
+            os.unlink(relf)
 
 if __name__ == '__main__':
     unittest.main()
