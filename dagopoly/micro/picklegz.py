@@ -10,6 +10,9 @@ class PickleGzIter():
         self._unpickler = pickle.Unpickler(self._f)
         self._isOpen = True
     
+    def __iter__(self):
+        return self
+
     def __next__(self):
         if not self._isOpen:
             return None
